@@ -38,21 +38,44 @@ class D_C(object):
             j += 1
             k += 1
 
+    def partition(self, array, l, r):
+        x = array[r]
+        i = l - 1
+        for j in range(l, r):
+            if array[j] <= x:
+                i += 1
+                array[i], array[j] = array[j], array[i]
+        array[i + 1], array[r] = array[r], array[i + 1]
+        return i + 1
+
+    def quickSelect(self, array, k):
+        l = 0
+        r = len(array) - 1
+        split_point = self.partition(array, l, r)
+        if split_point == r - k + 1:
+            result = array[split_point]
+        elif split_point > r - k + 1:
+            result = self.quickSelect(array[:split_point], k - (r - split_point + 1))
+        else:
+            result = self.quickSelect(array[split_point + 1:r + 1], k)
+        return result
+
 
 if __name__ == "__main__":
     d_c = D_C()
     clear = lambda: os.system('clear')
     while(1):
         clear()
-        print("Atual array: " + str(d_c.array))
-        print("1 - Inserir novo array")
-        print("2 - Ver o array ordenado, usando o merge sort")
-        print("3 - Sair")
-        option = input("Digite a opção desejada: ")
+        print("Current array: " + str(d_c.array))
+        print("1 - Insert a new array")
+        print("2 - See the sorted array, using merge sort algorithm")
+        print("3 - Find the kth largest element using quickSelect")
+        print("4 - Exit")
+        option = input("Insert the option value: ")
         if option == '1':
             try:
-                print("Exemplo de entrada: [2, 3, 8, 1, 4]")
-                array = input("Digite o array desejado: ")
+                print("Input example: [2, 3, 8, 1, 4]")
+                array = input("Insert the new array: ")
                 array = ast.literal_eval(array)
                 d_c.array = array
             except ValueError:
@@ -62,11 +85,21 @@ if __name__ == "__main__":
             try:
                 array = copy(d_c.array)
                 d_c.mergeSort(array)
-                print("Array ordenado: " + str(array))
+                print("Sorted array: " + str(array))
                 input("\nClick any key to continue")
             except ValueError:
                 print("Invalid input!")
         elif option == '3':
+            try:
+                value = input("Insert the kth largest wanted: ")
+                array = copy(d_c.array)
+                result = d_c.quickSelect(array, int(value))
+                print("\nThe kth largest element is " + str(result))
+                print("The resulted array is " + str(array))
+                input("\nClick any key to continue")
+            except ValueError:
+                print("Invalid input!")
+        elif option == '4':
             print("Saindo...")
             exit()
         else:

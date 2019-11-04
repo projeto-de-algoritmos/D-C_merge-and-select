@@ -9,6 +9,7 @@ class D_C(object):
 
     def mergeSort(self, array):
         if len(array)>1:
+            print("Splitting " + str(array))
             m = int(len(array)/2)
             lv = array[:m]
             rv = array[m:]
@@ -16,6 +17,7 @@ class D_C(object):
             self.mergeSort(lv)
             self.mergeSort(rv)
             self.merge(array, lv, rv)
+            print("Result " + str(array))
 
     def merge(self, array, lv, rv):
         i = j = k = 0
@@ -51,6 +53,7 @@ class D_C(object):
     def quickSelect(self, array, k):
         l = 0
         r = len(array) - 1
+        print("Partitioning " + str(array))
         split_point = self.partition(array, l, r)
         if split_point == r - k + 1:
             result = array[split_point]
@@ -58,6 +61,7 @@ class D_C(object):
             result = self.quickSelect(array[:split_point], k - (r - split_point + 1))
         else:
             result = self.quickSelect(array[split_point + 1:r + 1], k)
+        print("Result " + str(array))
         return result
 
 
@@ -85,7 +89,7 @@ if __name__ == "__main__":
             try:
                 array = copy(d_c.array)
                 d_c.mergeSort(array)
-                print("Sorted array: " + str(array))
+                print("\nSorted array: " + str(array))
                 input("\nClick any key to continue")
             except ValueError:
                 print("Invalid input!")
